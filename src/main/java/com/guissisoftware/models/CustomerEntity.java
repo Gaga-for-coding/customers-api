@@ -1,6 +1,7 @@
 package com.guissisoftware.models;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import lombok.Data;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -10,6 +11,7 @@ import javax.validation.constraints.NotEmpty;
 
 @Entity(name = "Customer")
 @Table(name = "customer")
+@Data
 public class CustomerEntity extends PanacheEntity {
     @Column(name = "first_name")
     @NotEmpty
