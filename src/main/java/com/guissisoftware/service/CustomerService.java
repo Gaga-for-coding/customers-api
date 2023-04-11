@@ -39,7 +39,7 @@ public class CustomerService {
     public void save(@Valid Customer customer){
         log.debug("Saving customer : {}", customer);
         CustomerEntity customerEntity = customerMapper.toEntity(customer);
-        customerRepository.persist(customerEntity);
+        customerRepository.persistAndFlush(customerEntity);
         customerMapper.updateDtoFromEntity(customerEntity, customer);
     }
 
