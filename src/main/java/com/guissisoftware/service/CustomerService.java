@@ -1,5 +1,6 @@
 package com.guissisoftware.service;
 
+import com.guissisoftware.exception.ServiceException;
 import com.guissisoftware.models.CustomerEntity;
 import com.guissisoftware.models.dto.Customer;
 import com.guissisoftware.repository.CustomerRepository;
@@ -13,6 +14,7 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.Valid;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @ApplicationScoped
@@ -39,6 +41,22 @@ public class CustomerService {
         CustomerEntity customerEntity = customerMapper.toEntity(customer);
         customerRepository.persist(customerEntity);
         customerMapper.updateDtoFromEntity(customerEntity, customer);
+    }
+
+    @Transactional
+    public void update(@Valid Customer customer){
+        log.debug("Updating customer : {}", customer);
+        if(Objects.isNull(customer.getId())){
+            throw new ServiceException("Customer does not exist");
+        }
+
+        CustomerEntity entity = customerRepository.findByIdOptional(customer.getId()).orElseThrow(
+                () -> new ServiceException("No customer found with id : {}", customer.getId())
+        );
+
+        customerMapper.updateEntityFromDto(customer, entity);
+        customerRepository.persist(entity);
+        customerMapper.updateDtoFromEntity(entity, customer);
     }
 
 }
