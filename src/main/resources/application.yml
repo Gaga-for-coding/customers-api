@@ -9,4 +9,4 @@ quarkus:
       url: jdbc:postgresql://localhost:5432/customers
     db-kind: postgresql
     username: postgres
-    password: 9720
+    password: lol
